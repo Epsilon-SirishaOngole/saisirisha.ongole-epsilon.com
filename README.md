@@ -1,2 +1,5 @@
 # saisirisha.ongole-epsilon.com
-Laravel POC
+Installation Steps, run the below commands an cloning the repository.
+    1. npm install
+    2. comoser update
+
