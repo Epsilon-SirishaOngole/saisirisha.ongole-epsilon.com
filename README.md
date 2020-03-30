@@ -1,5 +1,6 @@
-# saisirisha.ongole-epsilon.com
-Installation Steps, run the below commands an cloning the repository.
-    1. npm install
-    2. comoser update
+# Laravel POC with React.
+
+## Installation Steps, run the below commands an cloning the repository.
+   * npm install
+   * comoser update
 
