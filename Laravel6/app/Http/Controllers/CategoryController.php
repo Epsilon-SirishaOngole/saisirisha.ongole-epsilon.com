@@ -19,6 +19,11 @@ class CategoryController extends Controller
        return view('catogries.index')->with('catogries', Category::all());
     }
 
+    public function apiShowCatogries(){
+
+        return Category::all();
+    }
+
     /**
      * Show the form for creating a new resource.
      *

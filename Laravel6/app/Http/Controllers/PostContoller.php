@@ -7,12 +7,14 @@ use LearnApp\Http\Requests\Posts\CreatePostRequest;
 use LearnApp\Http\Requests\Posts\UpdatePostRquest;
 use LearnApp\Post;
 use LearnApp\Category;
+use LearnApp\Tag;
+use Illuminate\Support\Facades\Auth;
 
 class PostContoller extends Controller
 {
 
     public function __construct(){
-
+        
         $this->middleware('verifycatogerycount')->only(['create','store']);
     }
     /**
@@ -22,7 +24,13 @@ class PostContoller extends Controller
      */
     public function index()
     {
-        return view('posts.index')->with('posts',Post::all());
+        //dd(Auth::user()->siteAdmin != 1)
+            return view('posts.index')->with('posts',Post::all());
+    }
+
+    public function apiShowPosts()
+    {
+      return Post::all();
     }
 
     /**
@@ -32,7 +40,7 @@ class PostContoller extends Controller
      */
     public function create()
     {
-        return view('posts.create')->with('categories',Category::all());
+        return view('posts.create')->with('categories',Category::all())->with('tags',Tag::all());
     }
 
     /**
@@ -43,14 +51,19 @@ class PostContoller extends Controller
      */
     public function store(CreatePostRequest $request)
     {
+       
         $image = $request->image->store('posts');
-        Post::create([
+        $post =Post::create([
             'title' => $request->name,
             'description' => $request->description,
             'content'=> $request->content,
             'category_id'=> $request->catogery,
             'image'=> $image
         ]);
+
+        if($request->tags){
+            $post->tags()->attach($request->tags);
+        }
 
 
         return redirect(route('posts.index'));
@@ -65,7 +78,7 @@ class PostContoller extends Controller
      */
     public function show($id)
     {
-        //
+      return Post::all();
     }
 
     /**
@@ -77,7 +90,7 @@ class PostContoller extends Controller
     public function edit(Post $post)
     {
         //dd($post);
-        return view('posts.create')->with('post' , $post)->with('categories',Category::all());
+        return view('posts.create')->with('post' , $post)->with('categories',Category::all())->with('tags',Tag::all());
     }
 
     /**
@@ -96,6 +109,9 @@ class PostContoller extends Controller
             $post->deleteImage();
 
             $data['image'] = $image;
+        }
+        if($request->tags){
+            $post->tags()->sync($request->tags);
         }
         $data['category_id'] = $request->catogery;
         $post->update($data);

@@ -55,7 +55,7 @@
                         <a class="nav-link" href="{{ route('newTodo') }}">{{ _('Create Todo')}}</a>
                         </li> -->
                         <li class="nav-item">
-                        <a class="nav-link" href="{{ route('home') }}">{{ _('Dashboard')}}</a>
+                        <a class="nav-link" href="{{ route('react') }}">{{ _('Dashboard')}}</a>
                         </li>
                         
                             <li class="nav-item dropdown">
@@ -101,6 +101,9 @@
                         </li>
                         <li class="list-group-item">
                         <a href="{{ route('catogries.index') }}">Category</a>
+                        </li>
+                        <li class="list-group-item">
+                        <a href="{{ route('tags.index') }}">Tags</a>
                         </li>
                         <li class="list-group-item">
                         <a href="{{ route('trashed-posts') }}">Trashed Posts</a>

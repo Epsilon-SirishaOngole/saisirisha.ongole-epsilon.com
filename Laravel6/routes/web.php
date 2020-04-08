@@ -11,6 +11,34 @@
 |
 */
 
+// Route::get('/{path?}', [
+//     'uses' => 'HomeController@index',
+//     'as' => 'react',
+//     'where' => ['path' => '.*']
+// ]);
+
+
+Route::group(['prefix' => 'blog'], function () {
+
+    Route::get('/{path?}', [
+        'uses' => 'HomeController@index',
+        'as' => 'react',
+        'where' => ['path' => '.*']
+    ]);
+
+});
+
+
+Route::group(['prefix' => 'api'], function () {
+
+    Route::get('/posts', 'PostContoller@apiShowPosts');
+
+    Route::get('/catogries', 'CategoryController@apiShowCatogries');
+
+    Route::get('/tags', 'TagContoller@apiShowtags');
+
+});
+
 Route::middleware(['auth'])->group(function() {
     Route::get('/todos', ['as' => 'todosList', 'uses' => 'Todos@index']);
     Route::get('/new-todo',['as'=>'newTodo','uses'=>'Todos@create']);
@@ -23,15 +51,13 @@ Route::middleware(['auth'])->group(function() {
     
     Route::resource('catogries','CategoryController');
     Route::resource('posts','PostContoller');
+    Route::resource('tags','TagContoller');
     Route::get('/trashed-posts', ['as' => 'trashed-posts','uses'=> 'PostContoller@trashed']);
     Route::get('/posts/restore/{id}', ['as' => 'posts.restore','uses'=> 'PostContoller@restore']);
-
-    Route::get('/home',['as'=> 'home','uses'=>'HomeController@index']);
-    Route::get('/data',['as'=> 'data','uses'=>'DataController@index']);
 
 });
 
 Auth::routes();
     
-// Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 

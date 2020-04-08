@@ -44,15 +44,32 @@
                 <lable for="image">Image</lable>
                 <input type="file" name="image" class="form-control" id="image"></input>
                 </div>
+                
                 <div class="form-group">
                 <lable for="catogery">Catogery</lable>
-                <select name="catogery" class="form-control" id="catogery">
-                
+                <select name="catogery" class="form-control" id="catogery">      
                 @foreach($categories as $catogery)
                 <option value="{{ $catogery->id }}" @if(isset($post)){{ ($catogery->id == $post->category_id) ? 'selected' : '' }} @endif >{{ $catogery->name }}</option>
                 @endforeach 
                 </select>
                 </div>
+
+                <div class="form-group">
+                <lable for="tags">Tags</lable>
+                <select name="tags[]" id="tags" class="form-control" multiple>
+                    @if($tags->count() > 0)
+                        @foreach($tags as $tag)
+                        <option value="{{ $tag->id }}" 
+                            @if(isset($post))
+                                {{(in_array($tag->id,$post->tags->pluck('id')->toArray())) ? 'selected' : ''
+                                }}
+                            @endif
+                            >{{ $tag->name }}</option>     
+                        @endforeach 
+                    @endif
+                </select>
+                </div>
+
                 <button type="submit" class="btn btn-success" >{{isset($post) ? 'Update Post' : 'Create Post'}}</button>
             </form>
         </div>
